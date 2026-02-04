@@ -1,0 +1,53 @@
+---
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/project-description', label: 'Project description' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <nav class="header-nav">
+    {navItems.map((item) => (
+      <a class={currentPath === item.href ? 'active' : ''} href={item.href}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</header>
+
+<style>
+  :global(.site-header) {
+    position: relative;
+    z-index: 10;
+    height: 30px;
+    background: #000000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+  }
+
+  :global(.header-nav) {
+    margin-left: auto;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 1.5rem;
+    font-family: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
+  }
+
+  :global(.header-nav a) {
+    color: #e6eef2;
+    text-decoration: none;
+    padding: 0 1rem;
+    line-height: 30px;
+    text-transform: uppercase;
+    font-size: 10pt;
+    font-weight: 700;
+  }
+
+  :global(.header-nav a.active) {
+    background: #ffffff;
+    color: #000000;
+  }
+</style>

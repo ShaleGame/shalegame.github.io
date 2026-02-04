@@ -6,116 +6,146 @@ const repoUrl = 'https://github.com/ShaleGame/ShaleGame';
   <div class="hero-inner">
     <div class="hero-copy">
       <h1>Shale</h1>
-      <p class="pitch">Insert pitch text here</p>
-      <p class="meta">Source-available</p>
-      <p class="cta-row">
-        <a class="button primary" href={repoUrl} rel="noopener" target="_blank">View Development on GitHub</a>
-        <a class="button ghost" href={repoUrl + '/releases'} rel="noopener" target="_blank">Release notes</a>
-      </p>
-    </div>
-    <div class="hero-art" aria-hidden="true">
-      <!-- Placeholder -->
-      <svg width="560" height="320" viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <radialGradient id="g" cx="50%" cy="40%" r="80%">
-            <stop offset="0%" stop-color="#122027" />
-            <stop offset="60%" stop-color="#060608" />
-            <stop offset="100%" stop-color="#000000" />
-          </radialGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#g)" />
-        <g opacity="0.06" fill="#fff">
-          <rect x="20" y="40" width="520" height="2" rx="1" />
-          <rect x="40" y="80" width="480" height="2" rx="1" />
-          <rect x="80" y="160" width="400" height="2" rx="1" />
-        </g>
-      </svg>
     </div>
   </div>
-
-  <style>
-    :global(:root) {
-      --bg: #0b0c10;
-      --muted: #94a3b8;
-      --accent: #3dd1c1;
-      --accent2: #ff7b50;
-      --card: rgba(255,255,255,0.03);
-    }
-
-    .hero {
-      color: #e6eef2;
-      padding: 6rem 1.25rem;
-      background: linear-gradient(180deg, rgba(6,6,8,1) 0%, rgba(9,10,12,1) 100%);
-    }
-
-    .hero-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .hero-copy h1 {
-      font-size: 3rem;
-      margin: 0 0 0.5rem 0;
-      letter-spacing: -0.02em;
-    }
-
-    .pitch {
-      color: var(--muted);
-      font-size: 1.125rem;
-      max-width: 46ch;
-      margin: 0 0 1.25rem 0;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      margin-top: 0.5rem;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 10px 16px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      border: 1px solid transparent;
-    }
-
-    .button.primary {
-      background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
-      color: #061319;
-      box-shadow: 0 6px 18px rgba(61,209,193,0.12);
-    }
-
-    .button.ghost {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .hero-art svg {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    }
-
-    @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero { padding: 3.25rem 1rem; }
-      .hero-art { order: -1; }
-      .hero-copy h1 { font-size: 2.25rem; }
-    }
-  </style>
 </section>
+
+<section class="cta-strip">
+  <div class="cta-inner">
+    <p class="cta-copy">
+      Currently in development.
+    </p>
+    <div class="cta-row">
+      <a class="button primary" href={repoUrl} rel="noopener" target="_blank">View Development on GitHub</a>
+      <a class="button ghost" href={repoUrl + '/releases'} rel="noopener" target="_blank">Release notes</a>
+      <a class="button ghost" href="/project-description">Project description</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  :global(:root) {
+    --bg: #000;
+    --muted: #9aa3b3;
+    --accent: #3dd1c1;
+    --accent2: #ff7b50;
+  }
+
+  .hero {
+    min-height: 100vh;
+    background: #000;
+    color: #f0f4ff;
+    padding: clamp(3.5rem, 4vw, 6rem) 1.25rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20440%20320'%3E%3Crect%20x='20'%20y='20'%20width='400'%20height='280'%20rx='20'%20fill='none'%20stroke='rgba(255,255,255,0.25)'%20stroke-width='2'/%3E%3Cline%20x1='40'%20y1='40'%20x2='400'%20y2='280'%20stroke='rgba(255,255,255,0.2)'%20stroke-width='2'/%3E%3Cline%20x1='400'%20y1='40'%20x2='40'%20y2='280'%20stroke='rgba(255,255,255,0.2)'%20stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 140% auto;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    width: 100%;
+    max-width: 960px;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(3rem, 6vw, 4.25rem);
+    margin: 0.35rem 0;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-copy h1 + .pitch {
+    margin-top: 0.75rem;
+  }
+
+  .pitch {
+    color: var(--muted);
+    font-size: clamp(1.125rem, 2vw, 1.35rem);
+    line-height: 1.6;
+    max-width: 48ch;
+  }
+
+  .meta {
+    color: #7d8ea2;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+  }
+
+  .cta-strip {
+    background: #000;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: clamp(1.5rem, 2vw, 2.75rem) 1.25rem clamp(2.5rem, 3vw, 3.5rem);
+  }
+
+  .cta-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cta-copy {
+    color: var(--muted);
+    max-width: 64ch;
+    font-size: 1.1rem;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+
+  .button.primary {
+    background: white;
+    color: #030709;
+  }
+
+  .button.ghost {
+    color: #f4f7ff;
+    background: transparent;
+  }
+
+  .button:hover {
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 640px) {
+    .cta-row {
+      flex-direction: column;
+    }
+  }
+</style>

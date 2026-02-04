@@ -1,0 +1,177 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <main class="project-layout">
+    <div class="project-card">
+      <h1>Shale &mdash; CS 425/426 Senior Project</h1>
+      <p class="subtitle">
+        University of Nevada, Reno; Department of Computer Science & Engineering
+      </p>
+      <p class="subtitle">
+        Group 29 &mdash; Christopher Maldonado &middot; Hunter Bickel &middot;
+        Justin Juera &middot; Jennifer Hogueison
+      </p>
+      <p class="subtitle">
+        Dr. Dave Feil-Seifer &middot; Dr. Vinh Le &middot; Stosh Peterson &middot; Richie White
+      </p>
+      <p class="subtitle">
+        Advisor: Shawn Treants &mdash; College of Southern Nevada
+      </p>
+      <br>
+      <p>
+        Shale is a 2D search-action platformer built in the Godot Engine, where
+        you play as a girl with mysterious cloning powers named Shale. Shale
+        lives in the Chasm, a cavern where monsters have started showing up as
+        the air gets colder and colder, disrupting life in the fragile society
+        that has developed since humanity reached the stars and all but forgot
+        about their species' cradle.
+      </p>
+      <p>
+        Explore, gather equipment, solve puzzles, and find out who is causing
+        this mysterious phenomenon and why.
+      </p>
+      <p>
+        Even if Shale can't handle something alone, she's never alone when she's with
+        her clone. The clone mirrors her movements, and even the act of
+        splitting into two can provide some benefits. Place a clone on a switch
+        to keep it open, split mid-jump for extra jump height, double your
+        firepower against enemies, and explore multiple areas simultaneously.
+      </p>
+      <p>
+        Use tools you find in the labyrinth to help with solving puzzles. The
+        Heart of Siracus can freeze enemies in place, letting you create your
+        own platforms. The Missile Launcher launches characters that its
+        missiles hit, including yourself or your clone.
+      </p>
+      <p>
+        Find logbooks and read the history of the Chasm, the Aether lingering in its
+        air, and the doomed world surrounding it.
+      </p>
+      <p>
+        Even in a bleak world, the mistakes of the past need not be the future.
+      </p>
+      <br>
+      <h4 class="eyebrow">
+        Related Resources
+      </h4>
+      <div class="detail-grid">
+        <section>
+          <h2>Godot Engine</h2>
+          <a href="https://godotengine.org/" target="_blank" rel="noopener">https://godotengine.org/</a>
+          <p>
+            A free and open-source 2D and 3D general purpose game engine that
+            uses a node-based approach and can be programmed in C#, its
+            proprietary Python-like scripting language GDScript, or extended to
+            use any other programming language.
+          </p>
+        </section>
+
+        <section>
+          <h2>S. Rogers — Level Up! The Guide to Great Video Game Design</h2>
+          <a href="https://www.amazon.com/Level-Guide-Great-Video-Design/dp/1394298765" target="_blank" rel="noopener">Purchasable on Amazon</a>
+          <p>
+            A game design textbook covering video game history, roles in
+            development and publishing, and building a game from ideas and
+            design paperwork through camera viewports, control layouts, UI,
+            level design, combat encounters, multiplayer management, music,
+            monetization, and publishing.
+          </p>
+        </section>
+
+        <section>
+          <h2>J. Schell — The Art of Game Design: A Book of Lenses</h2>
+          <a href="https://www.amazon.com/Art-Game-Design-Lenses-Third/dp/1138632058" target="_blank" rel="noopener">Purchasable on Amazon</a>
+          <p>
+            A textbook that walks through game design questions through
+            different lenses, encouraging modular thinking, interactive
+            design, testing, and storytelling aimed at evoking wonder and meaning.
+          </p>
+        </section>
+
+        <section>
+          <h2>G. Smith &amp; J. Carette — Design foundations for Emotional Game Characters</h2>
+          <a href="https://doi.org/10.7557/23.6175" target="_blank" rel="noopener">Eludamos Journal, 2020</a>
+          <p>
+            Explores how depth in non-player characters can be enhanced via
+            simulated emotional responses, emotional intelligence, and an
+            "emotion engine" that encodes personality, biases, goals, and values
+            to give NPCs agency.
+          </p>
+        </section>
+
+        <section>
+          <h2>J.-N. Thon — Playing with Fear: The Aesthetics of Horror in Recent Indie Games</h2>
+          <a href="https://doi.org/10.7557/23.6179" target="_blank" rel="noopener">Eludamos Journal, 2020</a>
+          <p>
+            Discusses audiovisual, ludic, and narrative aesthetics used by indie
+            horror games and the distinctions between indie and retro aesthetics
+            in crafting emotional responses.
+          </p>
+        </section>
+
+        <section>
+          <h2>P. Martin — Ambivalence and Recursion in Castlevania: Symphony of the Night</h2>
+          <a href="https://doi.org/10.7557/23.6128" target="_blank" rel="noopener">Eludamos Journal, 2011</a>
+          <p>
+            Covers recursion in Castlevania: Symphony of the Night, focusing on
+            Alucard's duality, labyrinthine exploration typical of search-action
+            games, and how these elements evoke ambivalence.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+    }
+
+    a {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .project-layout {
+      min-height: 100vh;
+      padding: 4rem 1.25rem;
+      background: #030304;
+    }
+
+    .project-card {
+      max-width: 768px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 1rem 0;
+    }
+
+    p {
+      line-height: 1.5;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .project-layout {
+        padding: 3rem 1rem;
+      }
+    }
+  </style>
+  <Footer />
+</Layout>

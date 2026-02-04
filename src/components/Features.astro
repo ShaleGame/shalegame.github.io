@@ -1,78 +1,136 @@
 ---
+import WireframeIllustration from './WireframeIllustration.astro';
 ---
 
 <section class="features" aria-labelledby="features-title">
   <div class="wrap">
-    <h2 id="features-title">What to Expect</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Splitform Mastery</h3>
+    <div class="feature-card" data-flip="false">
+      <div class="feature-copy">
+        <p class="eyebrow">Replicate</p>
         <p>
-          Unleash your projection to create double-play strategies: solve
-          impossible puzzles, flank enemies, and set up brutal combo attacks.
-          Smart splitting and timely merges turn risky plays into spectacular
-          rewards.
+          Even if Shale can't handle something alone, she's never alone when
+          she's with her clone. The clone mirrors her movements, and even the act
+          of splitting into two can provide some benefits. Place a clone on a
+          switch to keep it open, split mid-jump for extra jump height, double
+          your firepower against enemies, and explore multiple areas
+          simultaneously.
         </p>
       </div>
-      <div class="card">
-        <h3>Fluid Movement & Mobility</h3>
+      <div class="feature-art">
+        <WireframeIllustration />
+      </div>
+    </div>
+
+    <div class="feature-card" data-flip="true">
+      <div class="feature-copy">
+        <p class="eyebrow">Weaponry</p>
         <p>
-          Dash through hazardous rooms while chaining attacks into movement
-          tech. Use weapon abilities to assist not only with combat, but also
-          traversal and uncovering hidden shortcuts.
+          Use tools you find in the labyrinth to help with solving puzzles. The
+          Heart of Siracus can freeze enemies in place, letting you create your
+          own platforms. The Rocket Launcher launches characters that its
+          missiles hit, including yourself or your clone.
         </p>
       </div>
-      <div class="card">
-        <h3>Relentless Boss Encounters</h3>
+      <div class="feature-art">
+        <WireframeIllustration />
+      </div>
+    </div>
+
+    <div class="feature-card" data-flip="false">
+      <div class="feature-copy">
+        <p class="eyebrow">Explore</p>
         <p>
-          Boss fights mix bullet-hell intensity with strategic splitform use.
-          Read attack patterns, and split attention across bodies to control
-          the arena.
+          Find logbooks and read the history of the Chasm, the Aether lingering
+          in its air, and the doomed world surrounding it. Even in a bleak world,
+          the mistakes of the past need not be the future.
         </p>
+      </div>
+      <div class="feature-art">
+        <WireframeIllustration />
       </div>
     </div>
   </div>
 
   <style>
+  :global(:root) {
+    --feature-gradient: linear-gradient(135deg, rgba(61,209,193,0.15), rgba(255,127,80,0.12));
+  }
+
   .features {
-    padding: 3.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    padding: 3rem 1.25rem 1rem;
   }
 
   .wrap {
+    width: 100%;
     max-width: 1100px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
   }
 
-  h2 {
-    color: #dbeafe;
-    margin: 0 0 1rem 0;
-  }
-
-  .grid {
+  .feature-card {
+    width: 100%;
+    padding: clamp(2rem, 3vw, 3rem);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    align-items: center;
+    box-shadow: 0 45px 80px rgba(0,0,0,0.65);
+    overflow: hidden;
   }
 
-  .card {
-    background: var(--card);
-    padding: 1.25rem;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
+  .feature-card[data-flip="true"] {
+    direction: rtl;
   }
 
-  .card h3 {
-    margin: 0 0 0.5rem 0;
+  .feature-card[data-flip="true"] .feature-copy {
+    text-align: right;
   }
 
-  .card p {
-    color: var(--muted);
+  .feature-card[data-flip="true"] .feature-art {
+    justify-self: flex-end;
+  }
+
+  .feature-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    color: #f2f6ff;
+  }
+
+  .feature-copy h2 {
     margin: 0;
+    font-size: clamp(2.1rem, 4vw, 2.6rem);
+  }
+
+  .feature-copy p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .feature-art {
+    justify-self: center;
+    align-self: center;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
   }
 
   @media (max-width: 900px) {
-    .grid {
+    .feature-card {
       grid-template-columns: 1fr;
+      text-align: left;
+      direction: ltr;
     }
   }
   </style>

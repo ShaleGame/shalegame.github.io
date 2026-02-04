@@ -1,0 +1,47 @@
+---
+const variant = Astro.props.variant ?? 'default';
+---
+
+<div class={`wireframe ${variant}`} aria-hidden="true">
+  <svg viewBox="0 0 220 160" role="presentation" preserveAspectRatio="xMidYMid meet">
+    <g stroke-linecap="round">
+      <line x1="16" y1="16" x2="204" y2="144" />
+      <line x1="204" y1="16" x2="16" y2="144" />
+      <rect x="20" y="20" width="180" height="120" rx="10" />
+    </g>
+  </svg>
+
+  <style>
+    .wireframe {
+      width: 220px;
+      height: 160px;
+      border-radius: 16px;
+      transition: transform 220ms ease;
+    }
+
+    .wireframe svg {
+      width: 100%;
+      height: 100%;
+      stroke: rgba(255,255,255,0.5);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .wireframe circle,
+    .wireframe rect {
+      stroke-linejoin: round;
+    }
+
+    .wireframe:hover {
+      transform: translateY(-4px) rotate(-1deg);
+    }
+
+    .wireframe.alt {
+      background: linear-gradient(140deg, rgba(255,127,80,0.15), rgba(61,209,193,0.12));
+    }
+
+    .wireframe.alt svg {
+      stroke: rgba(0,0,0,0.55);
+    }
+  </style>
+</div>
