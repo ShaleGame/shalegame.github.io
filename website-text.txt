@@ -28,4 +28,57 @@ Stosh Peterson
 Richie White
 Shawn Treants - College of Southern Nevada
 
-Shale is a 2D platformer. #TODO
+Shale is a 2D search-action platformer built in the Godot Engine, where you play as a girl with mysterious cloning powers named Shale.
+Shale lives in the Chasm, a cavern where monsters have started showing up as the air gets colder and colder, disrupting life in the
+fragile society that has developed since humanity reached the stars and all but forgot about their species' cradle.
+
+Explore, gather equipment, solve puzzles, and find out who is causing this mysterious phenomenon and why.
+
+Even if Shale can't handle something alone, she's never alone when she's with her clone. The clone mirrors her movements, 
+and even the act of splitting into two can provide some benefits. Place a clone on a switch to keep it open,
+split mid-jump for extra jump height, double your firepower against enemies, and explore multiple areas simultaneously.
+
+Use tools you find in the labyrinth to help with solving puzzles. 
+The Heart of Siracus can freeze enemies in place, letting you create your own platforms.
+The Missile Launcher launches characters that its missiles hit, including yourself or your clone.
+
+Find logbooks and read the history of the Chasm, the Aether lingering in its air, and the doomed world surrounding it.
+Even in a bleak world, the mistakes of the past need not be the future.
+
+Related resources:
+Godot Engine. https://godotengine.org
+A free and open source 2D and 3D general purpose game engine that uses a node-based approach and can be programmed in C#,
+its proprietary Python-like scripting language GDScript, or extended to use any other programming language.
+
+S. Rogers, "Level Up! The Guide to Great Video Game Design" (3rd ed.), New York, NY, USA: Wiley, 2024
+Purchasable on Amazon here: https://www.amazon.com/Level-Guide-Great-Video-Design/dp/1394298765
+A game design textbook that covers video game history, roles in game development and publishing, and developing a game
+from ideas and design paperwork to specific aspects like creating compelling characters, narrative techniques, camera
+viewports and techniques, typical control layouts, UI elements, level design, combat encounter and gameplay design, 
+multiplayer management, game music, monetization, and publishing.
+
+J. Schell, "The Art of Game Design: A Book of Lenses" (3rd ed.) Pittsburgh, PA, USA: CRC Press, 2019
+Purchasable on Amazon here: https://www.amazon.com/Art-Game-Design-Lenses-Third/dp/1138632058
+A game design textbook that walks through a series of game design questions and different lenses to view them through. 
+The book encourages module design and thinking as well as interactive design and testing. Explores storytelling as a core 
+design element, urging designers to craft worlds that evoke wonder and meaning.
+
+G. Smith, J. Carette. “Design foundations for Emotional Game Characters”, Eludamos: Journal for Computer Game Culture, 
+vol. 10, no. 1, pp. 109-140, April 2020, doi:10.7557/23.6175
+An article that covers character depth in non-player characters and how the perceived realism and depth of game narratives 
+and stories can be improved through exploring advances in simulating emotional responses and emotional intelligence through a 
+form of “emotion engine” as part of the artificial intelligence employed in non-player characters, including personality, 
+biases, goals, and values acting as values for allowing non-player characters to have agency.
+
+J.-N. Thon, “Playing with Fear: The Aesthetics of Horror in Recent Indie Games”, Eludamos: Journal for Computer Game Culture, 
+vol. 10, no. 1, pp. 197-231, April 2020, doi:10.7557/23.6179
+An article that covers the styling of independently-developed and published video games that use a variety of deliberate audiovisual, 
+ludic, and narrative aesthetics to invoke different emotions typical to the horror story genre in video games, and the differences 
+between the “indie aesthetic” in video games as opposed to the “retro aesthetic”.
+
+P. Martin. “Ambivalence and Recursion in Castlevania: Symphony of the Night”, Eludamos: Journal for Computer Game Culture, 
+vol. 5, no. 1, pp. 71-90, July 2011, doi:10.7557/23.6128
+An article that covers recursion using Castlevania: Symphony of the Night as a means of invoking the feeling of ambivalence within 
+the player and the player character avatar Alucard. It explores the duality of Alucard’s character, the labyrinths of the game and 
+recursive nature of exploring labyrinths in the the search-action game genre, and how this emphasizes this feeling of ambivalence.
+
