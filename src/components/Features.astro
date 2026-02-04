@@ -1,0 +1,79 @@
+---
+---
+
+<section class="features" aria-labelledby="features-title">
+  <div class="wrap">
+    <h2 id="features-title">What to Expect</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Splitform Mastery</h3>
+        <p>
+          Unleash your projection to create double-play strategies: solve
+          impossible puzzles, flank enemies, and set up brutal combo attacks.
+          Smart splitting and timely merges turn risky plays into spectacular
+          rewards.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Fluid Movement & Mobility</h3>
+        <p>
+          Dash through hazardous rooms while chaining attacks into movement
+          tech. Use weapon abilities to assist not only with combat, but also
+          traversal and uncovering hidden shortcuts.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Relentless Boss Encounters</h3>
+        <p>
+          Boss fights mix bullet-hell intensity with strategic splitform use.
+          Read attack patterns, and split attention across bodies to control
+          the arena.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  .features {
+    padding: 3.25rem 1.25rem;
+  }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    color: #dbeafe;
+    margin: 0 0 1rem 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .card {
+    background: var(--card);
+    padding: 1.25rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+  .card h3 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  .card p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  </style>
+</section>

@@ -1,0 +1,31 @@
+---
+// ReleaseNotesPreview (simplified)
+// This component links to the project's GitHub releases page by default.
+// To enable build-time inclusion of release notes, generate a markdown
+// file at `src/content/releases/latest.md` during your game repo CI and
+// the site can import it at build time. For private repos, provide a
+// GitHub token to the Pages build if needed.
+
+const repoUrl = 'https://github.com/ShaleGame/ShaleGame';
+---
+
+<section class="releases" aria-labelledby="releases-title">
+  <div class="wrap">
+    <h2 id="releases-title">Latest Release</h2>
+    <div class="placeholder">
+      <p>No release notes are embedded on this site. Your game's CI can generate a markdown file at:</p>
+      <pre>src/content/releases/latest.md</pre>
+      <p>For now, view releases on GitHub:</p>
+      <p><a class="button" href={repoUrl + '/releases'} target="_blank" rel="noopener">View releases on GitHub</a></p>
+    </div>
+  </div>
+
+  <style>
+    :global(:root) { --card: rgba(255,255,255,0.03); }
+    .releases { padding: 2.25rem 1.25rem; }
+    .wrap { max-width: 900px; margin: 0 auto; }
+    .placeholder p { color: var(--muted); margin: 0 0 0.5rem 0; }
+    pre { background: rgba(255,255,255,0.02); padding: 0.5rem; border-radius: 6px; color: var(--muted); }
+    .button { display:inline-block; padding:8px 12px; border-radius:8px; background: linear-gradient(90deg,var(--accent),var(--accent2)); color:#061319; text-decoration:none; font-weight:600; }
+  </style>
+</section>
