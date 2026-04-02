@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
+import ReleasesView from '../components/ReleasesView';
 ---
 
 <Layout>
@@ -18,11 +19,7 @@ import Footer from '../components/Footer.astro';
         </a>
       </div>
 
-      <div id="releases-container">
-        <div id="releases-loading" class="state-msg">Loading releases&hellip;</div>
-        <div id="releases-error" class="state-msg hidden"></div>
-        <div id="releases-list"></div>
-      </div>
+      <ReleasesView client:load />
     </div>
   </main>
 
@@ -51,14 +48,10 @@ import Footer from '../components/Footer.astro';
       flex: 1 0 auto;
     }
 
-    .state-msg {
+    :global(.state-msg) {
       color: var(--muted);
       font-style: italic;
       padding: 1rem 0;
-    }
-
-    .hidden {
-      display: none;
     }
 
     /* --- release entry --- */
@@ -237,133 +230,6 @@ import Footer from '../components/Footer.astro';
     }
   </style>
 
-  <script>
-    import { marked } from 'marked';
-
-    const API_URL = 'https://api.github.com/repos/ShaleGame/ShaleGame/releases';
-
-    const loadingEl = document.getElementById('releases-loading')!;
-    const errorEl = document.getElementById('releases-error')!;
-    const listEl = document.getElementById('releases-list')!;
-
-    // Map of release id → raw markdown body (for lazy rendering)
-    const releaseBodyMap = new Map<number, string>();
-
-    function formatDate(iso: string): string {
-      return new Date(iso).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
-    }
-
-    interface ReleaseAsset {
-      name: string;
-      browser_download_url: string;
-    }
-
-    interface Release {
-      id: number;
-      name: string;
-      tag_name: string;
-      prerelease: boolean;
-      published_at: string;
-      body: string;
-      assets: ReleaseAsset[];
-    }
-
-    function renderRelease(release: Release): string {
-      const hasBody = Boolean(release.body?.trim());
-
-      if (hasBody) {
-        releaseBodyMap.set(release.id, release.body);
-      }
-
-      const assetsHtml = release.assets.length
-        ? `<div class="release-assets">
-            <h4>Downloads</h4>
-            <div class="asset-list">
-              ${release.assets
-                .map(
-                  (a) =>
-                    `<a class="asset-link" href="${a.browser_download_url}" download>
-                      &#x2193; ${a.name}
-                    </a>`
-                )
-                .join('')}
-            </div>
-          </div>`
-        : '';
-
-      const bodySection = hasBody
-        ? `<details class="release-details" data-release-id="${release.id}">
-            <summary class="release-details-toggle">Release Notes</summary>
-            <div class="release-body"></div>
-          </details>`
-        : '';
-
-      return `
-        <article class="release-entry">
-          <div class="release-meta">
-            <h2 class="release-name">${release.name || release.tag_name}</h2>
-            <span class="release-tag">${release.tag_name}</span>
-            ${release.prerelease ? '<span class="release-prerelease">Pre-release</span>' : ''}
-            <time class="release-date" datetime="${release.published_at}">
-              ${formatDate(release.published_at)}
-            </time>
-          </div>
-          ${assetsHtml}
-          ${bodySection}
-        </article>
-      `;
-    }
-
-    function attachToggleListeners() {
-      listEl.querySelectorAll<HTMLDetailsElement>('.release-details').forEach((details) => {
-        details.addEventListener('toggle', function handler() {
-          if (!details.open) return;
-          const id = Number(details.dataset.releaseId);
-          const bodyEl = details.querySelector<HTMLElement>('.release-body')!;
-          if (bodyEl && !bodyEl.dataset.rendered) {
-            const md = releaseBodyMap.get(id) ?? '';
-            bodyEl.innerHTML = marked.parse(md) as string;
-            bodyEl.dataset.rendered = 'true';
-          }
-          // Only render once; remove listener after first open
-          details.removeEventListener('toggle', handler);
-        });
-      });
-    }
-
-    async function loadReleases() {
-      try {
-        const res = await fetch(API_URL);
-        if (!res.ok) {
-          throw new Error(`GitHub API responded with ${res.status}`);
-        }
-        const releases: Release[] = await res.json();
-
-        loadingEl.classList.add('hidden');
-
-        if (releases.length === 0) {
-          errorEl.textContent = 'No releases found.';
-          errorEl.classList.remove('hidden');
-          return;
-        }
-
-        listEl.innerHTML = releases.map(renderRelease).join('');
-        attachToggleListeners();
-      } catch (err) {
-        loadingEl.classList.add('hidden');
-        errorEl.textContent =
-          'Failed to load releases. Please visit the GitHub releases page directly.';
-        errorEl.classList.remove('hidden');
-        console.error('Releases fetch error:', err);
-      }
-    }
-
-    loadReleases();
-  </script>
-
   <Footer />
 </Layout>
+
