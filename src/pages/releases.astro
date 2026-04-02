@@ -9,7 +9,7 @@ import Footer from '../components/Footer.astro';
       <div class="releases-header">
         <h1>Release Notes</h1>
         <a
-          class="gh-link"
+          class="button primary"
           href="https://github.com/ShaleGame/ShaleGame/releases"
           target="_blank"
           rel="noopener"
@@ -51,20 +51,25 @@ import Footer from '../components/Footer.astro';
       flex: 1 0 auto;
     }
 
-    .gh-link {
+    .button {
       display: inline-block;
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: 8px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      color: #061319;
       text-decoration: none;
       font-weight: 700;
       font-family: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
       font-size: 0.85rem;
       white-space: nowrap;
+      cursor: pointer;
+      border: none;
     }
 
-    .gh-link:hover {
+    .button.primary {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #061319;
+    }
+
+    .button.primary:hover {
       opacity: 0.88;
     }
 
@@ -115,6 +120,7 @@ import Footer from '../components/Footer.astro';
       background: rgba(255, 123, 80, 0.12);
       padding: 2px 8px;
       border-radius: 4px;
+      font-family: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
     }
 
     :global(.release-date) {
@@ -208,6 +214,39 @@ import Footer from '../components/Footer.astro';
       background: rgba(61, 209, 193, 0.08);
     }
 
+    :global(.release-details) {
+      margin-top: 1rem;
+    }
+
+    :global(.release-details-toggle) {
+      cursor: pointer;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0;
+      color: var(--accent);
+      font-family: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    :global(.release-details-toggle::-webkit-details-marker) {
+      display: none;
+    }
+
+    :global(.release-details-toggle::before) {
+      content: "▶";
+      font-size: 0.65em;
+      display: inline-block;
+      transition: transform 0.15s ease;
+    }
+
+    :global(.release-details[open] > .release-details-toggle::before) {
+      transform: rotate(90deg);
+    }
+
     @media (max-width: 640px) {
       .releases-layout {
         padding: 3rem 1rem;
@@ -228,6 +267,9 @@ import Footer from '../components/Footer.astro';
     const loadingEl = document.getElementById('releases-loading')!;
     const errorEl = document.getElementById('releases-error')!;
     const listEl = document.getElementById('releases-list')!;
+
+    // Map of release id → raw markdown body (for lazy rendering)
+    const releaseBodyMap = new Map<number, string>();
 
     function formatDate(iso: string): string {
       return new Date(iso).toLocaleDateString('en-US', {
@@ -253,9 +295,11 @@ import Footer from '../components/Footer.astro';
     }
 
     function renderRelease(release: Release): string {
-      const bodyHtml = release.body
-        ? marked.parse(release.body) as string
-        : '';
+      const hasBody = Boolean(release.body?.trim());
+
+      if (hasBody) {
+        releaseBodyMap.set(release.id, release.body);
+      }
 
       const assetsHtml = release.assets.length
         ? `<div class="release-assets">
@@ -273,6 +317,13 @@ import Footer from '../components/Footer.astro';
           </div>`
         : '';
 
+      const bodySection = hasBody
+        ? `<details class="release-details" data-release-id="${release.id}">
+            <summary class="release-details-toggle">Release Notes</summary>
+            <div class="release-body"></div>
+          </details>`
+        : '';
+
       return `
         <article class="release-entry">
           <div class="release-meta">
@@ -283,10 +334,27 @@ import Footer from '../components/Footer.astro';
               ${formatDate(release.published_at)}
             </time>
           </div>
-          ${bodyHtml ? `<div class="release-body">${bodyHtml}</div>` : ''}
           ${assetsHtml}
+          ${bodySection}
         </article>
       `;
+    }
+
+    function attachToggleListeners() {
+      listEl.querySelectorAll<HTMLDetailsElement>('.release-details').forEach((details) => {
+        details.addEventListener('toggle', function handler() {
+          if (!details.open) return;
+          const id = Number(details.dataset.releaseId);
+          const bodyEl = details.querySelector<HTMLElement>('.release-body')!;
+          if (bodyEl && !bodyEl.dataset.rendered) {
+            const md = releaseBodyMap.get(id) ?? '';
+            bodyEl.innerHTML = marked.parse(md) as string;
+            bodyEl.dataset.rendered = 'true';
+          }
+          // Only render once; remove listener after first open
+          details.removeEventListener('toggle', handler);
+        });
+      });
     }
 
     async function loadReleases() {
@@ -306,6 +374,7 @@ import Footer from '../components/Footer.astro';
         }
 
         listEl.innerHTML = releases.map(renderRelease).join('');
+        attachToggleListeners();
       } catch (err) {
         loadingEl.classList.add('hidden');
         errorEl.textContent =
