@@ -1,0 +1,322 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <main class="releases-layout">
+    <div class="releases-card">
+      <div class="releases-header">
+        <h1>Release Notes</h1>
+        <a
+          class="gh-link"
+          href="https://github.com/ShaleGame/ShaleGame/releases"
+          target="_blank"
+          rel="noopener"
+        >
+          View all releases on GitHub &rarr;
+        </a>
+      </div>
+
+      <div id="releases-container">
+        <div id="releases-loading" class="state-msg">Loading releases&hellip;</div>
+        <div id="releases-error" class="state-msg hidden"></div>
+        <div id="releases-list"></div>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .releases-layout {
+      min-height: 100vh;
+      padding: 4rem 1.25rem;
+      background: #030304;
+    }
+
+    .releases-card {
+      max-width: 768px;
+      margin: 0 auto;
+    }
+
+    .releases-header {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .releases-header h1 {
+      margin: 0;
+      flex: 1 0 auto;
+    }
+
+    .gh-link {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #061319;
+      text-decoration: none;
+      font-weight: 700;
+      font-family: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .gh-link:hover {
+      opacity: 0.88;
+    }
+
+    .state-msg {
+      color: var(--muted);
+      font-style: italic;
+      padding: 1rem 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* --- release entry --- */
+    :global(.release-entry) {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2rem 0;
+    }
+
+    :global(.release-meta) {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    :global(.release-name) {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    :global(.release-tag) {
+      font-family: "Space Grotesk", "Inter", monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    :global(.release-prerelease) {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent2);
+      background: rgba(255, 123, 80, 0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    :global(.release-date) {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    :global(.release-body) {
+      color: #c8d8e4;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    :global(.release-body h1),
+    :global(.release-body h2),
+    :global(.release-body h3),
+    :global(.release-body h4) {
+      color: #e6eef2;
+      margin-top: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    :global(.release-body p) {
+      margin: 0.5rem 0;
+    }
+
+    :global(.release-body ul),
+    :global(.release-body ol) {
+      padding-left: 1.5rem;
+      margin: 0.5rem 0;
+    }
+
+    :global(.release-body li) {
+      margin: 0.2rem 0;
+    }
+
+    :global(.release-body a) {
+      color: var(--accent);
+    }
+
+    :global(.release-body pre) {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+    }
+
+    :global(.release-body code) {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+    }
+
+    :global(.release-body hr) {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin: 1.5rem 0;
+    }
+
+    :global(.release-assets) {
+      margin-top: 1.25rem;
+    }
+
+    :global(.release-assets h4) {
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0 0 0.6rem 0;
+    }
+
+    :global(.asset-list) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    :global(.asset-link) {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(61, 209, 193, 0.35);
+      color: var(--accent);
+      text-decoration: none;
+      font-family: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
+      font-size: 0.82rem;
+    }
+
+    :global(.asset-link:hover) {
+      background: rgba(61, 209, 193, 0.08);
+    }
+
+    @media (max-width: 640px) {
+      .releases-layout {
+        padding: 3rem 1rem;
+      }
+
+      .releases-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+  <script>
+    import { marked } from 'marked';
+
+    const API_URL = 'https://api.github.com/repos/ShaleGame/ShaleGame/releases';
+
+    const loadingEl = document.getElementById('releases-loading')!;
+    const errorEl = document.getElementById('releases-error')!;
+    const listEl = document.getElementById('releases-list')!;
+
+    function formatDate(iso: string): string {
+      return new Date(iso).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+
+    interface ReleaseAsset {
+      name: string;
+      browser_download_url: string;
+    }
+
+    interface Release {
+      id: number;
+      name: string;
+      tag_name: string;
+      prerelease: boolean;
+      published_at: string;
+      body: string;
+      assets: ReleaseAsset[];
+    }
+
+    function renderRelease(release: Release): string {
+      const bodyHtml = release.body
+        ? marked.parse(release.body) as string
+        : '';
+
+      const assetsHtml = release.assets.length
+        ? `<div class="release-assets">
+            <h4>Downloads</h4>
+            <div class="asset-list">
+              ${release.assets
+                .map(
+                  (a) =>
+                    `<a class="asset-link" href="${a.browser_download_url}" download>
+                      &#x2193; ${a.name}
+                    </a>`
+                )
+                .join('')}
+            </div>
+          </div>`
+        : '';
+
+      return `
+        <article class="release-entry">
+          <div class="release-meta">
+            <h2 class="release-name">${release.name || release.tag_name}</h2>
+            <span class="release-tag">${release.tag_name}</span>
+            ${release.prerelease ? '<span class="release-prerelease">Pre-release</span>' : ''}
+            <time class="release-date" datetime="${release.published_at}">
+              ${formatDate(release.published_at)}
+            </time>
+          </div>
+          ${bodyHtml ? `<div class="release-body">${bodyHtml}</div>` : ''}
+          ${assetsHtml}
+        </article>
+      `;
+    }
+
+    async function loadReleases() {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) {
+          throw new Error(`GitHub API responded with ${res.status}`);
+        }
+        const releases: Release[] = await res.json();
+
+        loadingEl.classList.add('hidden');
+
+        if (releases.length === 0) {
+          errorEl.textContent = 'No releases found.';
+          errorEl.classList.remove('hidden');
+          return;
+        }
+
+        listEl.innerHTML = releases.map(renderRelease).join('');
+      } catch (err) {
+        loadingEl.classList.add('hidden');
+        errorEl.textContent =
+          'Failed to load releases. Please visit the GitHub releases page directly.';
+        errorEl.classList.remove('hidden');
+        console.error('Releases fetch error:', err);
+      }
+    }
+
+    loadReleases();
+  </script>
+
+  <Footer />
+</Layout>
