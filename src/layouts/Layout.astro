@@ -31,7 +31,7 @@ import HeaderNav from '../components/HeaderNav.astro';
 	</body>
 </html>
 
-<style>
+<style is:global>
 	:root {
 		--bg: #0b0c10;
 		--muted: #94a3b8;
@@ -51,4 +51,32 @@ import HeaderNav from '../components/HeaderNav.astro';
 	}
 
 	a { color: var(--accent); }
+
+	.button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px 20px;
+		text-decoration: none;
+		font-weight: 600;
+		border: 1px solid transparent;
+		transition: transform 160ms ease, box-shadow 160ms ease;
+		font-family: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
+		white-space: nowrap;
+		cursor: pointer;
+	}
+
+	.button.primary {
+		background: white;
+		color: #030709;
+	}
+
+	.button.ghost {
+		color: #f4f7ff;
+		background: transparent;
+	}
+
+	.button:hover {
+		transform: translateY(-1px);
+	}
 </style>
