@@ -1,0 +1,434 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+
+const ghReleasesUrl = 'https://github.com/ShaleGame/ShaleGame/releases';
+---
+
+<Layout>
+  <main class="releases-layout">
+    <div class="releases-header">
+      <h1>Release Notes</h1>
+      <p class="subtitle">Published releases for the Shale game project.</p>
+      <a class="button primary" href={ghReleasesUrl} target="_blank" rel="noopener">
+        View all releases on GitHub ↗
+      </a>
+    </div>
+
+    <div class="releases-body">
+      <div id="loading-state" class="state-box">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading releases&hellip;
+      </div>
+
+      <div id="error-state" class="state-box hidden">
+        <p class="error-text">Could not load releases from the GitHub API.</p>
+        <a class="button ghost" href={ghReleasesUrl} target="_blank" rel="noopener">
+          View releases on GitHub ↗
+        </a>
+      </div>
+
+      <ul id="releases-list" class="releases-list hidden" aria-label="Releases"></ul>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  import { marked } from 'marked';
+
+  const API_URL = 'https://api.github.com/repos/ShaleGame/ShaleGame/releases';
+
+  let cachedReleases: Release[] | null = null;
+
+  interface Asset {
+    name: string;
+    browser_download_url: string;
+    size: number;
+  }
+
+  interface Release {
+    id: number;
+    name: string | null;
+    tag_name: string;
+    published_at: string | null;
+    prerelease: boolean;
+    draft: boolean;
+    body: string | null;
+    html_url: string;
+    assets: Asset[];
+  }
+
+  function formatDate(iso: string): string {
+    return new Date(iso).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+
+  function formatBytes(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  function buildReleaseHTML(release: Release): string {
+    const displayName = release.name?.trim() || release.tag_name;
+    const date = release.published_at ? formatDate(release.published_at) : 'Unknown date';
+
+    const badges: string[] = [];
+    if (release.draft) badges.push('<span class="badge badge-draft">Draft</span>');
+    if (release.prerelease) badges.push('<span class="badge badge-pre">Pre-release</span>');
+
+    const badgesHTML = badges.length ? `<span class="badge-row">${badges.join('')}</span>` : '';
+
+    const bodyHTML = release.body?.trim()
+      ? `<div class="release-body">${marked.parse(release.body)}</div>`
+      : '';
+
+    const assetsHTML =
+      release.assets.length > 0
+        ? `<div class="release-assets">
+            <h4 class="assets-label">Downloads</h4>
+            <ul class="asset-list">
+              ${release.assets
+                .map(
+                  (a) =>
+                    `<li><a href="${a.browser_download_url}" class="asset-link" download>
+                      <span class="asset-icon">⬇</span>
+                      <span class="asset-name">${a.name}</span>
+                      <span class="asset-size">${formatBytes(a.size)}</span>
+                    </a></li>`,
+                )
+                .join('')}
+            </ul>
+          </div>`
+        : '';
+
+    return `
+      <li class="release-card">
+        <div class="release-meta">
+          <div class="release-title-row">
+            <a class="release-name" href="${release.html_url}" target="_blank" rel="noopener">${displayName}</a>
+            ${badgesHTML}
+          </div>
+          <div class="release-info">
+            <time datetime="${release.published_at ?? ''}">${date}</time>
+            <span class="tag-name">${release.tag_name}</span>
+          </div>
+        </div>
+        ${bodyHTML}
+        ${assetsHTML}
+      </li>
+    `;
+  }
+
+  async function loadReleases(): Promise<void> {
+    const loadingEl = document.getElementById('loading-state')!;
+    const errorEl = document.getElementById('error-state')!;
+    const listEl = document.getElementById('releases-list')!;
+
+    try {
+      if (!cachedReleases) {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        cachedReleases = (await res.json()) as Release[];
+      }
+
+      const releases = cachedReleases;
+
+      loadingEl.classList.add('hidden');
+
+      if (releases.length === 0) {
+        listEl.innerHTML = '<li class="state-box">No releases found.</li>';
+      } else {
+        listEl.innerHTML = releases.map(buildReleaseHTML).join('');
+      }
+
+      listEl.classList.remove('hidden');
+    } catch {
+      loadingEl.classList.add('hidden');
+      errorEl.classList.remove('hidden');
+    }
+  }
+
+  loadReleases();
+</script>
+
+<style>
+  /* ── Layout ─────────────────────────────────────────── */
+  .releases-layout {
+    min-height: 100vh;
+    background: #030304;
+    padding: 0 0 4rem;
+  }
+
+  /* ── Page header ─────────────────────────────────────── */
+  .releases-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #000;
+    padding: 3rem 1.25rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    letter-spacing: -0.02em;
+    color: #f0f4ff;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  /* ── Buttons (mirror Hero style) ────────────────────── */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: transform 160ms ease;
+    font-family: inherit;
+  }
+  .button:hover { transform: translateY(-1px); }
+
+  .button.primary {
+    background: white;
+    color: #030709;
+  }
+
+  .button.ghost {
+    color: #f4f7ff;
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* ── Body / list container ──────────────────────────── */
+  .releases-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 0;
+  }
+
+  .hidden { display: none !important; }
+
+  /* ── State (loading / error) ────────────────────────── */
+  .state-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem 1rem;
+    color: var(--muted);
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .error-text { margin: 0; }
+
+  /* ── Spinner ────────────────────────────────────────── */
+  .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Release list ───────────────────────────────────── */
+  .releases-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* ── Release card ───────────────────────────────────── */
+  .release-card {
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+
+  /* ── Release meta (title row + info row) ────────────── */
+  .release-meta {
+    margin-bottom: 1.25rem;
+  }
+
+  .release-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .release-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f0f4ff;
+    text-decoration: none;
+  }
+  .release-name:hover { color: var(--accent); }
+
+  .release-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  time { font-variant-numeric: tabular-nums; }
+
+  .tag-name {
+    font-family: "Courier New", Courier, monospace;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0 0.4em;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  /* ── Badges ─────────────────────────────────────────── */
+  .badge-row { display: inline-flex; gap: 0.35rem; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+  }
+  .badge-pre { background: rgba(61, 209, 193, 0.15); color: var(--accent); }
+  .badge-draft { background: rgba(255, 123, 80, 0.15); color: var(--accent2); }
+
+  /* ── Rendered markdown body ─────────────────────────── */
+  :global(.release-body) {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #c8d8e8;
+    overflow-wrap: break-word;
+  }
+
+  :global(.release-body h1),
+  :global(.release-body h2),
+  :global(.release-body h3),
+  :global(.release-body h4) {
+    color: #e6eef2;
+    margin: 1.25em 0 0.4em;
+  }
+
+  :global(.release-body ul),
+  :global(.release-body ol) {
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+  }
+
+  :global(.release-body li) { margin: 0.2em 0; }
+
+  :global(.release-body a) { color: var(--accent); }
+
+  :global(.release-body code) {
+    background: rgba(255, 255, 255, 0.07);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  :global(.release-body pre) {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+  }
+
+  :global(.release-body pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  :global(.release-body hr) {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 1.5em 0;
+  }
+
+  :global(.release-body blockquote) {
+    border-left: 3px solid var(--accent);
+    margin: 0.75em 0;
+    padding: 0.25em 0.75em;
+    color: var(--muted);
+  }
+
+  /* ── Asset downloads ─────────────────────────────────── */
+  .release-assets {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 1rem;
+  }
+
+  .assets-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin: 0 0 0.6rem 0;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+  }
+
+  .asset-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .asset-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 6px 12px;
+    background: rgba(61, 209, 193, 0.08);
+    border: 1px solid rgba(61, 209, 193, 0.25);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--accent);
+    font-size: 0.875rem;
+    transition: background 150ms ease;
+  }
+  .asset-link:hover { background: rgba(61, 209, 193, 0.16); }
+
+  .asset-icon { font-size: 0.8rem; }
+  .asset-size { color: var(--muted); font-size: 0.8rem; }
+
+  /* ── Responsive ─────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .releases-header { padding: 2rem 1rem 1.75rem; }
+    .releases-body { padding: 1.5rem 1rem 0; }
+    .release-card { padding: 1.25rem 1rem; }
+  }
+</style>
