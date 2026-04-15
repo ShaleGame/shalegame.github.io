@@ -82,12 +82,19 @@ import WireframeIllustration from './WireframeIllustration.astro';
     box-shadow: 0 45px 80px rgba(0,0,0,0.65);
     overflow: hidden;
   }
-  .feature-card[data-flip="true"] .feature-copy {
-    text-align: right;
-  }
+  /* On wide screens, flip the visual order for the flipped card so the
+     illustration appears on the left and the copy on the right. Keep the
+     normal DOM order for accessibility and mobile layout. */
+  @media (min-width: 901px) {
+    .feature-card[data-flip="true"] .feature-art {
+      grid-column: 1;
+      grid-row: 1;
+    }
 
-  .feature-card[data-flip="true"] .feature-art {
-    justify-self: flex-end;
+    .feature-card[data-flip="true"] .feature-copy {
+      grid-column: 2;
+      text-align: left;
+    }
   }
 
   .feature-copy {
