@@ -9,10 +9,10 @@ const repoUrl = 'https://github.com/ShaleGame/ShaleGame';
       <div class="logo">Shale</div>
     </div>
     <div class="right">
-      <a class="repo" href={repoUrl} target="_blank" rel="noopener">
+      <a class="repo" href={repoUrl} target="_blank" rel="noopener" aria-label="Shale on GitHub">
+        <GitHubIcon />
         <span class="sr">GitHub</span>
       </a>
-      <GitHubIcon />
       <a class="releases" href={repoUrl + '/releases'} target="_blank" rel="noopener">
         Source-available on GitHub!
       </a>
@@ -28,6 +28,6 @@ const repoUrl = 'https://github.com/ShaleGame/ShaleGame';
     .repo { color:var(--muted); display:inline-flex; gap:0.5rem; align-items:center; text-decoration:none; }
     .repo svg { color:var(--muted); }
     .releases { color:var(--muted); text-decoration:none; font-size:0.95rem; }
-    .sr { position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .sr { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
   </style>
 </footer>

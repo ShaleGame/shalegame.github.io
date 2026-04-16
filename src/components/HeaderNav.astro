@@ -10,7 +10,11 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <nav class="header-nav">
     {navItems.map((item) => (
-      <a class={currentPath === item.href ? 'active' : ''} href={item.href}>
+      <a
+        class={currentPath === item.href ? 'active' : ''}
+        href={item.href}
+        aria-current={currentPath === item.href ? 'page' : undefined}
+      >
         {item.label}
       </a>
     ))}

@@ -4,9 +4,10 @@ import WireframeIllustration from './WireframeIllustration.astro';
 
 <section class="features" aria-labelledby="features-title">
   <div class="wrap">
+    <h2 id="features-title" class="visually-hidden">Features</h2>
     <div class="feature-card" data-flip="false">
       <div class="feature-copy">
-        <p class="eyebrow">Replicate</p>
+        <h3 class="eyebrow">Replicate</h3>
         <p>
           Even if Shale can't handle something alone, she's never alone when
           she's with her clone. The clone mirrors her movements, and even the act
@@ -23,7 +24,7 @@ import WireframeIllustration from './WireframeIllustration.astro';
 
     <div class="feature-card" data-flip="true">
       <div class="feature-copy">
-        <p class="eyebrow">Weaponry</p>
+        <h3 class="eyebrow">Weaponry</h3>
         <p>
           Use tools you find in the labyrinth to help with solving puzzles. The
           Heart of Siracus can freeze enemies in place, letting you create your
@@ -38,7 +39,7 @@ import WireframeIllustration from './WireframeIllustration.astro';
 
     <div class="feature-card" data-flip="false">
       <div class="feature-copy">
-        <p class="eyebrow">Explore</p>
+        <h3 class="eyebrow">Explore</h3>
         <p>
           Find logbooks and read the history of the Chasm, the Aether lingering
           in its air, and the doomed world surrounding it. Even in a bleak world,
@@ -61,6 +62,15 @@ import WireframeIllustration from './WireframeIllustration.astro';
     flex-direction: column;
     gap: 2.25rem;
     padding: 3rem 1.25rem 1rem;
+  }
+
+  /* visually-hidden helper for headings / labels */
+  .visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
   }
 
   .wrap {
