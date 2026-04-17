@@ -1,6 +1,9 @@
 ---
-import WireframeIllustration from './WireframeIllustration.astro';
+import splitImg from '../assets/split.gif';
+import combatImg from '../assets/combat.gif';
+import logbooksImg from '../assets/logbooks.png';
 ---
+
 
 <section class="features" aria-labelledby="features-title">
   <div class="wrap">
@@ -18,7 +21,7 @@ import WireframeIllustration from './WireframeIllustration.astro';
         </p>
       </div>
       <div class="feature-art">
-        <WireframeIllustration />
+        <img src={splitImg.src} width="320" height="180" alt="Split ability" fetchpriority="low" />
       </div>
     </div>
 
@@ -33,7 +36,7 @@ import WireframeIllustration from './WireframeIllustration.astro';
         </p>
       </div>
       <div class="feature-art">
-        <WireframeIllustration />
+        <img src={combatImg.src} width="320" height="180" alt="Combat" fetchpriority="low" />
       </div>
     </div>
 
@@ -47,7 +50,7 @@ import WireframeIllustration from './WireframeIllustration.astro';
         </p>
       </div>
       <div class="feature-art">
-        <WireframeIllustration />
+        <img src={logbooksImg.src} width="320" height="180" alt="Logbooks" fetchpriority="low" />
       </div>
     </div>
   </div>
@@ -129,6 +132,20 @@ import WireframeIllustration from './WireframeIllustration.astro';
   .feature-art {
     justify-self: center;
     align-self: center;
+  }
+
+  .feature-art img {
+    width: 320px;
+    height: 180px;
+    max-width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: transform 220ms ease;
+    display: block;
+  }
+
+  .feature-art img:hover {
+    transform: translateY(-4px) rotate(-1deg);
   }
 
   .eyebrow {
