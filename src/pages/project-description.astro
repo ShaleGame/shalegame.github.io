@@ -18,7 +18,7 @@ import Footer from '../components/Footer.astro';
         Dr. Dave Feil-Seifer &middot; Dr. Vinh Le &middot; Stosh Peterson &middot; Richie White
       </p>
       <p class="subtitle">
-        Advisor: Shawn Treants &mdash; College of Southern Nevada
+        Advisor: Shawn Treants &mdash; Professor at College of Southern Nevada
       </p>
       <br>
       <p>
@@ -135,7 +135,6 @@ import Footer from '../components/Footer.astro';
 
     .subtitle {
       color: rgba(255, 255, 255, 0.7);
-      font-size: 0.8rem;
     }
 
     a {
@@ -170,6 +169,10 @@ import Footer from '../components/Footer.astro';
     @media (max-width: 640px) {
       .project-layout {
         padding: 3rem 1rem;
+      }
+      /* Stack the resource grid into a single column on small screens */
+      .detail-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
