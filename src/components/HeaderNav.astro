@@ -7,13 +7,14 @@ const navItems = [
   { href: '/releases', label: 'Releases' },
 ];
 const currentPath = Astro.url.pathname;
+const isActive = (href) => currentPath === href || currentPath === href + '/';
 ---
 
 <header class="site-header">
   <nav class="header-nav">
     {navItems.map((item) => (
       <a
-        class={currentPath === item.href ? 'active' : ''}
+        class={isActive(item.href) ? 'active' : ''}
         href={item.href}
         aria-current={currentPath === item.href ? 'page' : undefined}
         data-fulllabel={item.fullLabel ?? item.label}
