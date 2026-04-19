@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <main id="content" class="support-layout">
+    <div class="support-card">
+      <h1>Support</h1>
+      <p class="subtitle">Report bugs, accessibility issues, or join the community.</p>
+
+      <h2 class="eyebrow">Discord</h2>
+      <p>
+        Join the community on Discord:
+        <a href="https://discord.gg/4RkRZJCPpG" target="_blank" rel="noopener">discord.gg/4RkRZJCPpG</a>
+      </p>
+
+      <h2 class="eyebrow">Website Issues</h2>
+      <p>
+        Report website bugs or accessibility issues on the website repository:
+        <a href="https://github.com/ShaleGame/shalegame.github.io/issues" target="_blank" rel="noopener">GitHub Issues</a>
+      </p>
+
+      <h2 class="eyebrow">Game Bugs</h2>
+      <p>
+        Report gameplay or build issues on the game repository:
+        <a href="https://github.com/ShaleGame/ShaleGame/issues" target="_blank" rel="noopener">GitHub Issues</a>
+      </p>
+
+      <p class="note">
+        Include your platform, release/build version, steps to reproduce, and any screenshots or logs when possible.
+      </p>
+    </div>
+  </main>
+
+  <style>
+    .support-layout {
+      min-height: 100vh;
+      padding: 4rem 1.25rem;
+      background: #030304;
+    }
+
+    .support-card {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .subtitle,
+    .note {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    a {
+      color: var(--accent);
+    }
+  </style>
+
+  <Footer />
+</Layout>
