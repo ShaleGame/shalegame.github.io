@@ -6,4 +6,9 @@ import preact from '@astrojs/preact';
 export default defineConfig({
   site: 'https://shalegame.github.io',
   integrations: [preact()],
+  server: {
+    headers: {
+      'Content-Security-Policy': 'script-src \'self\' https://cloud.umami.is;'
+    }
+  }
 });
