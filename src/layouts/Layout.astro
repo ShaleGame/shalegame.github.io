@@ -25,6 +25,18 @@ import HeaderNav from '../components/HeaderNav.astro';
     <meta property="og:image" content="/social-preview.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <script defer src="https://cloud.umami.is/script.js" data-website-id="6dd6e1c2-6bb4-47f0-89c3-3d760aabc60c"></script>
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('a').forEach(link => {
+          const isExternal = link.hostname && link.hostname !== window.location.hostname;
+          if (isExternal) {
+            link.addEventListener('click', () => {
+              umami.track('Outbound Link', { url: link.href, text: link.innerText.trim() });
+            });
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
