@@ -9,8 +9,42 @@ import Footer from '../components/Footer.astro';
 <Layout>
   <main id="content">
     <Hero />
+    <section class="award-band" aria-label="Award announcement">
+      <div class="award-inner">
+        <p>
+          <strong>Awarded Best Overall Senior Project 2026</strong> by the CSE Teaching Team
+        </p>
+      </div>
+    </section>
     <Description />
     <Features />
   </main>
   <Footer />
 </Layout>
+
+<style>
+  .award-band {
+    background: var(--card);
+    border-top: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
+    padding: 1rem 1.25rem;
+  }
+
+  .award-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .award-band p {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+    letter-spacing: 0.02em;
+  }
+
+  .award-band strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+</style>
